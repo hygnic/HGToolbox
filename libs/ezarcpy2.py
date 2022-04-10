@@ -22,6 +22,7 @@ Python2.7
 	@@merger_all_layers:在merger_all的基础上，先合并所有图层，然后融合所有要素。
 	@@add_shp2mxd: 加载shp文件到mxd
 	@@field_shower:获取图层中某单个字段的所有值(没多大价值，暂时留着)
+	@@get_extent_and_sr
 	
 	
 *******************************FUNCTION*****************************************
@@ -287,3 +288,45 @@ def field_value_shower(layer, field):
             _list.append(row[0])
     del cursor
     return _list
+
+
+def get_extent_and_sr(input_layer):
+    """
+    获取输入图层（要素类或者栅格）的左下角点坐标、宽、高以及参考系
+    :param input_layer: 输入图层
+    :return: 原点，宽，高
+    """
+    lyr = arcpy.mapping.Layer(input_layer)
+    lyr_e = lyr.getExtent()
+    _origin = (lyr_e.XMin, lyr_e.YMin)
+    # ((35437617.0031, 3373897.8944), 52000.0, 52000.0)
+    # 注意事项：Extent对象中的 SR 是数据框的参考系
+    # desc = arcpy.Describe(input_layer)
+    # desc.spatialReference 获取的才是输入数据的参考系
+    
+    # 获取图层自身的范围
+    #         ext = desc.extent
+    #         x_min = ext.XMin
+    #         x_max = ext.XMax
+    #         y_min = ext.YMin
+    #         y_max = ext.YMax
+    
+    
+    return _origin, lyr_e.width, lyr_e.height, lyr_e.spatialReference
+
+
+def conver_point2polgon(a_list):
+    """将普通的点数据转换成可以制作要素的面
+    
+    使用 InsertCursor 插入新要素
+    new1 = arcpy.Polygon(
+    arcpy.Array([arcpy.Point(20.0, 20.0), arcpy.Point(30.0, 20.0),
+                 arcpy.Point(30.0, 10.0), arcpy.Point(20.0, 10.0)]))
+
+    cursor = arcpy.da.InsertCursor("inset.shp", ['SHAPE@'])
+    cursor.insertRow([new1])
+    
+    """
+    point_obj = [arcpy.Point(i[0], i[1]) for i in a_list]
+    polygon = arcpy.Polygon(arcpy.Array(point_obj))
+    return polygon
