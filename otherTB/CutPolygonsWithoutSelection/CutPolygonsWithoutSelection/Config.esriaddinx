@@ -1,0 +1,23 @@
+﻿<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>CutPolygonsWithoutSelection</Name>
+  <AddInID>{74247c2f-09fe-4d89-91a4-e7af36901451}</AddInID>
+  <Description>The Cut Polygons Without Selection tool allows the user to cut features in a polygon layer using the sketch without requiring a selection.</Description>
+  <Version>1.0</Version>
+  <Image>Images\CutPolygonsWithoutSelection.png</Image>
+  <Author>Esri Editing Labs</Author>
+  <Company>Esri Editing Labs</Company>
+  <Date>6/27/2012</Date>
+  <Targets>
+    <Target name="Desktop" version="10.1" />
+  </Targets>
+  <AddIn language="CLR" library="CutPolygonsWithoutSelection.dll" namespace="CutPolygonsWithoutSelection">
+    <ArcMap>
+      <Editor>
+        <Commands>
+          <Tool id="Esri_Editing_Labs_CutPolygonsWithoutSelection_CutPolygonsWithoutSelectionTool" class="CutPolygonsWithoutSelectionTool" message="Cut features in a polygon layer using the sketch without requiring a selection." caption="Cut Polygons Without Selection Tool" tip="Cut Polygons Without Selection Tool" category="Editing Labs" image="Images\CutPolygonsWithoutSelectionTool.png" cursor="Images\CutPolygonsWithoutSelectionTool.cur" onDemand="false">
+          </Tool>
+        </Commands>
+      </Editor>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>

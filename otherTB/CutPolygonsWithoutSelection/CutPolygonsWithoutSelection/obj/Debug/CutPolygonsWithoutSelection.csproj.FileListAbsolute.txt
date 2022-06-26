@@ -1,0 +1,6 @@
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\bin\Debug\CutPolygonsWithoutSelection.dll
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\bin\Debug\CutPolygonsWithoutSelection.pdb
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\obj\Debug\CutPolygonsWithoutSelection.csprojResolveAssemblyReference.cache
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\obj\Debug\CutPolygonsWithoutSelection.dll
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\obj\Debug\CutPolygonsWithoutSelection.pdb
+C:\Users\sean3281\Documents\Visual Studio 2010\Projects\addins\CutPolygonsWithoutSelection\CutPolygonsWithoutSelection\bin\Debug\CutPolygonsWithoutSelection.esriAddIn
