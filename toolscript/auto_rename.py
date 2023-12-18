@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              auto_rename
 # Author:            Hygnic
@@ -6,8 +6,9 @@
 # Version:           
 # Reference:         
 """
-Description:         å½“ arcmap å·¦ä¾§å†…å®¹åˆ—è¡¨æœ‰å¤šä¸ªåŒåçš„è¦ç´ å›¾å±‚æ—¶ï¼Œ
-                    æ˜¯æ— æ³•ä½¿ç”¨åˆå¹¶åŠŸèƒ½çš„ï¼Œæç¤ºï¼šä¸å…è®¸é‡å¤çš„è¾“å…¥ã€‚
+Description:         µ± arcmap ×ó²àÄÚÈİÁĞ±íÓĞ¶à¸öÍ¬ÃûµÄÒªËØÍ¼²ãÊ±£¬
+                    ÊÇÎŞ·¨Ê¹ÓÃºÏ²¢¹¦ÄÜµÄ£¬ÌáÊ¾£º²»ÔÊĞíÖØ¸´µÄÊäÈë¡£
+                    ÄÚÈİÁĞ±íÈ¥ÖØÃû
 Usage:               
 """
 # -------------------------------------------
@@ -16,17 +17,25 @@ import random
 
 
 
-if __name__ == '__main__':
-    infeature_lyr = arcpy.GetParameterAsText(0)
-    infeature_lyr_list = infeature_lyr.split(";")
+# if __name__ == '__main__':
+arcpy.AddMessage("\n|---------------------------------|")
+arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+arcpy.AddMessage("|---------------------------------|\n")
 
-    mxd = arcpy.mapping.MapDocument("CURRENT")
-    df = arcpy.mapping.ListDataFrames(mxd)[0]
-    
-    for lyr in infeature_lyr_list:
-        layer = arcpy.mapping.Layer(lyr)
-        new_name = "layer_{}".format(random.randint(10000,99999))
-        layer.name = new_name
-        # arcpy.mapping.RemoveLayer(df, layer)
-        # arcpy.mapping.AddLayer(df, layer)
-        arcpy.RefreshTOC()
+mxd1 = arcpy.mapping.MapDocument('current')
+df = arcpy.mapping.ListDataFrames(mxd1)[0]
+
+
+
+infeature_lyr = arcpy.GetParameterAsText(0)
+arcpy.AddMessage(infeature_lyr)
+infeature_lyr_list = infeature_lyr.split(";")
+
+
+for lyr in infeature_lyr_list:
+    layer = arcpy.mapping.Layer(lyr)
+    new_name = "layer_{}".format(random.randint(10000,99999))
+    layer.name = new_name
+    # arcpy.mapping.RemoveLayer(df, layer)
+    # arcpy.mapping.AddLayer(df, layer)
+    arcpy.RefreshTOC()

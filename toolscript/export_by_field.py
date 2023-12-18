@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              export_by_field
 # Author:            Hygnic
@@ -6,7 +6,8 @@
 # Version:           
 # Reference:         
 """
-Description:         ä»è¦ç´ ç±»ä¸­æ ¹æ®å­—æ®µåç§°å¯¼å‡ºå¤šä¸ªè¦ç´ ç±»
+Description:         ´ÓÒªËØÀàÖĞ¸ù¾İ×Ö¶ÎÃû³Æµ¼³ö¶à¸öÒªËØÀà
+°´ÊôĞÔµ¼³ö
 Usage:               
 """
 # -------------------------------------------
@@ -17,26 +18,39 @@ import arcpy
 import sys
 import os
 
-#------------æ·»åŠ ç¯å¢ƒå˜é‡
+#------------Ìí¼Ó»·¾³±äÁ¿
 Script_dir = os.path.dirname(__file__)
 Base_dir = os.path.dirname(Script_dir)
 Libs_dir = os.path.join(Base_dir, "libs")
 sys.path.append(Libs_dir)
 #------------
 
-import ezarcpy2
+
 #<<<<<<<<<<<<<<<IMPORT SETTING>>>>>>>>>>>>>>
+
+def field_value_shower(layer, field):
+    """»ñÈ¡Í¼²ãÖĞÄ³µ¥¸ö×Ö¶ÎµÄËùÓĞÖµ(Ã»¶à´ó¼ÛÖµ£¬ÔİÊ±Áô×Å)
+    layer: mxd layer
+    field: ×Ö¶Î,Ö»ÄÜÑ¡Ò»¸ö×Ö¶Î
+    """
+    _list = []
+    cursor = arcpy.da.SearchCursor(layer,field)
+    for row in cursor:
+        if row[0] not in _list:
+            _list.append(row[0])
+    del cursor
+    return _list
 
 
 def export_by_filed(layer, field, output_featurecalss, folder):
     """
-    :param layer: {Strings} å›¾å±‚å¯¹è±¡
-    :param field: {Strings} å­—æ®µ
-    :param output_featurecalss: {Strings} è¾“å‡ºæ–‡ä»¶å¤¹
-    :param folder:{Boolean} æ˜¯å¦ç»™æ¯ä¸ªå¯¼å‡ºçš„shpåˆ›å»ºæ–‡ä»¶å¤¹
+    :param layer: {Strings} Í¼²ã¶ÔÏó
+    :param field: {Strings} ×Ö¶Î
+    :param output_featurecalss: {Strings} Êä³öÎÄ¼ş¼Ğ
+    :param folder:{Boolean} ÊÇ·ñ¸øÃ¿¸öµ¼³öµÄshp´´½¨ÎÄ¼ş¼Ğ
     :return:
     """
-    field_values = ezarcpy2.field_value_shower(layer, field)
+    field_values = field_value_shower(layer, field)
     
     featurea_lyr = "featurea_lyr"
     arcpy.MakeFeatureLayer_management(layer, featurea_lyr)
@@ -44,7 +58,9 @@ def export_by_filed(layer, field, output_featurecalss, folder):
     for value in field_values:
         
         # name+" LIKE '01%' "
+        # arcpy.AddMessage( value)
         where_clause =  field + "=" + "'" + value + "'"
+        # arcpy.AddMessage( where_clause)
         arcpy.SelectLayerByAttribute_management(featurea_lyr, "NEW_SELECTION", where_clause)
         
         if folder == "true":
@@ -62,7 +78,11 @@ def export_by_filed(layer, field, output_featurecalss, folder):
 
 
 if __name__ == '__main__':
-    # ä¸€
+    # Ò»
+    arcpy.AddMessage("\n|---------------------------------|")
+    arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+    arcpy.AddMessage("|---------------------------------|\n")
+    
     arcpy.env.overwriteOutput = True
     argv = tuple(arcpy.GetParameterAsText(i)
                  for i in range(arcpy.GetArgumentCount()))

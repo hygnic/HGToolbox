@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              SaveALowerCopy
 # Author:            Hygnic
@@ -11,6 +11,10 @@ Usage:
 """
 # -------------------------------------------
 import arcpy, os, time
+
+arcpy.AddMessage("\n|---------------------------------|")
+arcpy.AddMessage(" -----  工具由 GIS荟 制作并发布  ----- ")
+arcpy.AddMessage("|---------------------------------|\n")
 
 
 def log_printer(msg):
@@ -31,7 +35,7 @@ arcpy.env.overwriteOutput = True
 version = arcpy.GetParameterAsText(2)
 
 
-#閬嶅巻鐩綍涓嬬殑MXD鏂囨。
+#遍历目录下的MXD文档
 
 for afile in os.listdir(path):
     

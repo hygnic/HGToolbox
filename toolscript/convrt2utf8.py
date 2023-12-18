@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              convrt2utf8
 # Author:            Hygnic
@@ -6,7 +6,7 @@
 # Version:           
 # Reference:
 """
-Description:         æ·»åŠ  cpg æ–‡ä»¶æ¥ä¿®æ­£shpä¹±ç çš„é—®é¢˜
+Description:         Ìí¼Ó cpg ÎÄ¼şÀ´ĞŞÕıshpÂÒÂëµÄÎÊÌâ
 Usage:               
 """
 # -------------------------------------------
@@ -23,11 +23,15 @@ def add_cpg(layer_obj):
         
 
 if __name__ == '__main__':
+    arcpy.AddMessage("\n|---------------------------------|")
+    arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+    arcpy.AddMessage("|---------------------------------|\n")
+
     infeature_lyr = arcpy.GetParameterAsText(0)
     infeature_lyr_list = infeature_lyr.split(";")
     
-    # # æµ‹è¯•è·¯å¾„
-    # layer_path = ur"E:\é«˜æ ‡å‡†å†œç”°\code_test\å†…æ±Ÿå¸‚å¨è¿œå¿2019å¹´ä¸­å¤®é¢„ç®—å†…æŠ•èµ„é«˜æ ‡å‡†å†œç”°å»ºè®¾é¡¹ç›®ï¼ˆä¸œè”ç‰‡åŒºï¼‰\5110242019001.shp"
+    # # ²âÊÔÂ·¾¶
+    # layer_path = ur"E:\¸ß±ê×¼Å©Ìï\code_test\ÄÚ½­ÊĞÍşÔ¶ÏØ2019ÄêÖĞÑëÔ¤ËãÄÚÍ¶×Ê¸ß±ê×¼Å©Ìï½¨ÉèÏîÄ¿£¨¶«ÁªÆ¬Çø£©\5110242019001.shp"
 
     for layer_path in infeature_lyr_list:
         # arcpy.AddMessage(layer_path)

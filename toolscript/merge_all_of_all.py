@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              merge_all_of_all
 # Author:            Hygnic
@@ -6,8 +6,9 @@
 # Version:           
 # Reference:         
 """
-Description:         å°†ä¸€ä¸ªï¼ˆå¤šä¸ªï¼‰å›¾å±‚åˆå¹¶æˆä¸€ä¸ªå›¾å±‚
-                    å¹¶èåˆæˆä¸€æ•´å—ï¼Œæ¶ˆé™¤æ‰€æœ‰é‡å å’Œå±æ€§ä¿¡æ¯
+Description:         ½«Ò»¸ö£¨¶à¸ö£©Í¼²ãºÏ²¢³ÉÒ»¸öÍ¼²ã
+                    ²¢ÈÚºÏ³ÉÒ»Õû¿é£¬Ïû³ıËùÓĞÖØµşºÍÊôĞÔĞÅÏ¢
+                    ÍêÈ«ºÏ²¢ È¥³ıÖØµş
 Usage:               
 """
 # -------------------------------------------
@@ -17,17 +18,92 @@ import arcpy
 import sys
 import os
 
-#------------æ·»åŠ ç¯å¢ƒå˜é‡
+#------------Ìí¼Ó»·¾³±äÁ¿
 Script_dir = os.path.dirname(__file__)
 Base_dir = os.path.dirname(Script_dir)
 Libs_dir = os.path.join(Base_dir, "libs")
 sys.path.append(Libs_dir)
 #------------
 
-import ezarcpy2
+def merger_all(layer, outputclass= "dissolve_all"):
+    """
+    Ò»¼ü¿ìËÙºÏ²¢Ò»¸öÍ¼²ãµÄËùÓĞÒªËØ(Ìí¼ÓÒ»¸ö×Ö¶Î£¬È«²¿¸³ÖµÎª1£¬È»ºóÈÚºÏ£¬×îºóÉ¾³ı
+    ¸Ã×Ö¶Î)
+        <ÌØ±ğ×¢ÒâĞÂºÏ³ÉµÄÍ¼²ãÃû³Æ£¬ÊÇ·ñ»á¸²¸Ç>
+    layer(String): shp»òÕßlyrÎÄ¼şµØÖ·£¬»òÕßÍ¼²ã¶ÔÏó
+    return: ºÏ²¢ºóµÄĞÂÍ¼²ã Ä¬ÈÏ·µ»ØÍ¼²ãÃû×ÖÎª newlayer_945
+    """
+    arcpy.env.addOutputsToMap = True
+    arcpy.env.overwriteOutput = True
+    # ÅĞ¶ÏÊÇ·ñÓĞÕâ¸ö×Ö¶Î
+    all_fields = arcpy.ListFields(layer)
+    all_name = [i.name for i in all_fields]
+    # for f in all_fields:
+    # 	print f.name #Todo  neme ºÍ aliasName ·µ»ØµÄ¶¼Ò»Ñù£¬ÎªÊ²Ã´
+    # print f.aliasName
+    
+    field_name = "test1f2lcc"
+    if field_name not in all_name:
+        arcpy.AddField_management(layer, field_name, "LONG")
+    cursor = arcpy.da.UpdateCursor(layer, field_name)
+    for row in cursor:
+        row[0] = "1"
+        cursor.updateRow(row)
+    del cursor
+    new_ly = outputclass
+    arcpy.Dissolve_management(layer, new_ly ,field_name)
+    arcpy.DeleteField_management(new_ly, field_name)
+    return new_ly
+
+
+def merger_all_layers(layers, result_lyr):
+    """
+    ½«¶à¸öÍ¼²ãºÏ²¢£¬È»ºóÔÙÍêÈ«ÈÚºÏ£¬ÕâÑù¿ÉÒÔ¿ìËÙÏû³ıÖØµş
+    :param layers: {Str} ¶à¸öÒªËØÀà×é³ÉµÄµØÖ· ; ·Ö¸ô
+    :param result_lyr: {Layer} ×îºóµÄÊä³öÒªËØÀà
+    :return:
+    """
+    arcpy.env.workspace = arcpy.env.scratchGDB
+    arcpy.env.overwriteOutput = True
+    # separate layers each
+    # arcpy.AddMessage(type(layers))
+    # arcpy.AddMessage(layers)
+    layers_list = layers.split(";")
+    # layers_list = layers
+    # mergered_lyr = "in_memory/mergered_lyr"
+    mergered_lyr = "mergered_lyr"
+    
+    # µ±Í¼²ãÃû³Æ³öÏÖ¿Õ¸ñÊ±£¬·Ö¸îºóµÄµ¥¸öÃû³ÆÈçÏÂ ¡°¡®NAME '",
+    # ËùÒÔĞèÒªÈ¥³ıÁ½¸öµ¥ÒıºÅ
+    layers_list = [xxx.strip("'") if " " in xxx and "'" in xxx else xxx for xxx in layers_list]
+    
+    # arcpy.AddMessage("oooooooooo")
+    # for aa_layer in layers_list:
+    #     if " " in aa_layer and "'" in aa_layer:
+    #         aa_layer = aa_layer.strip("'")
+    #         arcpy.AddMessage(aa_layer)
+    # #     arcpy.AddMessage(aa_layer)
+    # #     arcpy.AddMessage(type(aa_layer))
+    # # arcpy.AddMessage(layers_list)
+    # arcpy.AddMessage("oooooooooo")
+    # return 1
+    
+    arcpy.Merge_management(layers_list, mergered_lyr)
+    mergered_dissolved_lyr = result_lyr
+    merger_all(mergered_lyr, mergered_dissolved_lyr)
+    arcpy.Delete_management(mergered_lyr)
+    return mergered_dissolved_lyr
+
+
+
 #<<<<<<<<<<<<<<<IMPORT SETTING>>>>>>>>>>>>>>
+arcpy.AddMessage("\n|---------------------------------|")
+arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+arcpy.AddMessage("|---------------------------------|\n")
+
 layers = arcpy.GetParameterAsText(0)
 output = arcpy.GetParameterAsText(1)
 
 arcpy.env.overwriteOutput = True
-ezarcpy2.merger_all_layers(layers, output)
+merger_all_layers(layers, output)
+

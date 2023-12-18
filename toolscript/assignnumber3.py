@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              assinnumber
 # Author:            Hygnic
@@ -6,9 +6,10 @@
 # Version:           
 # Reference:         
 """
-Description:         ç”¨äºè¦ç´ ç¼–å·
-ç›¸åŒçš„å­—æ®µä½¿ç”¨åŒä¸€ä¸ªå·ç ï¼Œä¸åŒçš„å‡åºæ’åˆ—ï¼Œè·³è¿‡ç©ºè¡Œï¼›å·ç ä»1å¼€å§‹
-è¿™ç§æ–¹æ³•æœ‰ä¸ªé—®é¢˜å°±æ˜¯åŒä¸€å±æ€§çš„å¿…é¡»è¿ç»­ï¼Œå¦‚æœæ²¡æœ‰è¿ç»­çš„è¯ï¼Œç¼–å·å€¼å°±ä¸ä¸€æ ·ã€‚è¿™é‡Œè§£å†³äº†è¯¥é—®é¢˜
+Description:         ÓÃÓÚÒªËØ±àºÅ
+ÏàÍ¬µÄ×Ö¶ÎÊ¹ÓÃÍ¬Ò»¸öºÅÂë£¬²»Í¬µÄÉıĞòÅÅÁĞ£¬Ìø¹ı¿ÕĞĞ£»ºÅÂë´Ó1¿ªÊ¼
+ÕâÖÖ·½·¨ÓĞ¸öÎÊÌâ¾ÍÊÇÍ¬Ò»ÊôĞÔµÄ±ØĞëÁ¬Ğø£¬Èç¹ûÃ»ÓĞÁ¬ĞøµÄ»°£¬±àºÅÖµ¾Í²»Ò»Ñù¡£ÕâÀï½â¾öÁË¸ÃÎÊÌâ
+¹¤¾ß °´ÊôĞÔ±àÂë
 Usage:               
 """
 # -------------------------------------------
@@ -16,11 +17,11 @@ import arcpy
 import random
 
 def assign_number(input_feature, field, start_number, new_field):
-    # field_name = u"æ ‡å·{}".format(random.randint())
+    # field_name = u"±êºÅ{}".format(random.randint())
 
-    # start_number = "ï¼ˆ1ï¼‰"
+    # start_number = "£¨1£©"
     value_dict = {}
-    # æ–°å»ºå­—æ®µ
+    # ĞÂ½¨×Ö¶Î
     arcpy.AddField_management(input_feature, new_field, "TEXT")
     with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
         count = 0
@@ -40,8 +41,8 @@ def assign_number(input_feature, field, start_number, new_field):
     
     del cursor
     
-    # å…ˆåˆ›å»ºä¸€ä¸ªå­—å…¸ï¼Œå°†éå†åè·å¾—çš„æ•°æ®å­˜è¿›å»ï¼›
-    # ç„¶åä½¿ç”¨å­—å…¸éå†æ›´æ–°å­—æ®µã€‚
+    # ÏÈ´´½¨Ò»¸ö×Öµä£¬½«±éÀúºó»ñµÃµÄÊı¾İ´æ½øÈ¥£»
+    # È»ºóÊ¹ÓÃ×Öµä±éÀú¸üĞÂ×Ö¶Î¡£
     
     with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
         for row in cursor:
@@ -55,11 +56,15 @@ def assign_number(input_feature, field, start_number, new_field):
             
         
     # arcpy.AddMessage(value_dict)
-    arcpy.RefreshActiveView()  # åˆ·æ–°åœ°å›¾å’Œå¸ƒå±€çª—å£
-    arcpy.RefreshTOC()  # åˆ·æ–°å†…å®¹åˆ—è¡¨
+    arcpy.RefreshActiveView()  # Ë¢ĞÂµØÍ¼ºÍ²¼¾Ö´°¿Ú
+    arcpy.RefreshTOC()  # Ë¢ĞÂÄÚÈİÁĞ±í
     
     
 if __name__ == '__main__':
+    arcpy.AddMessage("\n|---------------------------------|")
+    arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+    arcpy.AddMessage("|---------------------------------|\n")
+    
     arcpy.env.overwriteOutput = True
     argv = tuple(arcpy.GetParameterAsText(i)
              for i in range(arcpy.GetArgumentCount()))

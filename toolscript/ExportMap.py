@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding:cp936 -*-
 # -------------------------------------------
 # Name:              ExportMap
 # Author:            Hygnic
@@ -6,7 +6,8 @@
 # Version:           
 # Reference:         
 """
-Description:         ä»é€‰ä¸­æ–‡ä»¶å¤¹ä¸­æ‰¹é‡å¯¼å‡ºåœ°å›¾
+Description:         ´ÓÑ¡ÖĞÎÄ¼ş¼ĞÖĞÅúÁ¿µ¼³öµØÍ¼
+¹¤¾ß ÅúÁ¿µØÍ¼µ¼³ö
 Usage:               
 """
 # -------------------------------------------
@@ -34,9 +35,9 @@ def log_printer(msg):
 
 def export(path, res):
     """
-    æ‰¹é‡å°†MXDæ–‡æ¡£å¯¼å‡ºä¸ºJPEGå›¾ç‰‡
-    :param path: mxdæ–‡ä»¶å¤¹ç›®å½• string
-    :param res: åˆ†è¾¨ç‡ int
+    ÅúÁ¿½«MXDÎÄµµµ¼³öÎªJPEGÍ¼Æ¬
+    :param path: mxdÎÄ¼ş¼ĞÄ¿Â¼ string
+    :param res: ·Ö±æÂÊ int
     :return:
     """
     arcpy.AddMessage("\n...")
@@ -48,9 +49,13 @@ def export(path, res):
             del mxd1
             log_printer(afile+": OK!")
         else:
-            # log_printer(afile+"éMXDæ–‡ä»¶,è·³è¿‡\n")
-            print u"\néMXDæ–‡ä»¶,è·³è¿‡"
+            # log_printer(afile+"·ÇMXDÎÄ¼ş,Ìø¹ı\n")
+            print u"\n·ÇMXDÎÄ¼ş,Ìø¹ı"
     arcpy.AddMessage("OK!\n")
 
 if __name__ == '__main__':
+    arcpy.AddMessage("\n|---------------------------------|")
+    arcpy.AddMessage(" -----  ¹¤¾ßÓÉ GISÜö ÖÆ×÷²¢·¢²¼  ----- ")
+    arcpy.AddMessage("|---------------------------------|\n")
+    
     export(arcpy.GetParameterAsText(0), int(arcpy.GetParameterAsText(1)))
